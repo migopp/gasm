@@ -1,3 +1,7 @@
 *.asm
 *.dasm
 *.hex
+
+/dist
+/build
+/src/gasm.egg-info

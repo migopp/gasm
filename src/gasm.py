@@ -1,10 +1,22 @@
 import sys
 import os
 
-def gasm(source, dest):
-    with open(source) as f:
-        with open(dest, 'a') as o:
-            for line_num, line in enumerate(f):
+def gasm():
+    source = sys.argv[1]
+
+    if (len(sys.argv) > 2):
+        dest = sys.argv[2]
+    else:
+        # deduce dest
+        path = source.split('/')
+        source_name = os.path.splitext(path[len(path) - 1])[0]
+        dest = f'{source_name}.hex'
+
+    with open(dest, 'w') as o:
+        o.write('@0\n')
+
+        with open(source) as i:
+            for line_num, line in enumerate(i):
                 # remove symbols
                 line = line.replace(',', '').replace('r', '').replace('#', '').lower()
                 comps = line.split(' ')
@@ -53,17 +65,4 @@ def gasm(source, dest):
                     exit(1)
 
 if __name__ == '__main__':
-    source = sys.argv[1]
-
-    if (len(sys.argv) > 2):
-        dest = sys.argv[2]
-    else:
-        # deduce dest
-        path = source.split('/')
-        source_name = os.path.splitext(path[len(path) - 1])[0]
-        dest = f'{source_name}.hex'
-
-    with open(dest, 'w') as o:
-        o.write('@0\n')
-
-    gasm(source, dest)
+    gasm()
