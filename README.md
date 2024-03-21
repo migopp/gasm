@@ -27,10 +27,12 @@ movl r0, #111
 movl r0, #10
 ```
 
+You may choose to end your assembly with an `end` directive. Doing so, the assembler will provide the hex instruction `ffff` in its place.
+
 ### Disassembling:
 
 ```
 dasm <path to .hex file> <OPTIONAL: path to desired output file>
 ```
 
-The file you want to disassemble should be valid `.hex` with the `@0` directive as the first instruction.
+The file you want to disassemble should be valid `.hex`. It may, however, end with an `ffff`, though the instruction is not officially recognized.
