@@ -4,7 +4,11 @@ The Gheith ISA assembler.
 For students in Dr. Gheith's CS 429H course completing pipelining.
 
 ## Quick Start
-`pip install gasm` 👍
+
+```
+python3 -m pip install gasm
+```
+And, you're good to go. 👍
 
 ## Usage
 
@@ -16,9 +20,10 @@ gasm <path to assembly file> <OPTIONAL: path to desired output file>
 
 There are relatively few restrictions on the assembly file. The file extension, for example, is entirely unimportant. Designations like `r` for registers and `#` for literals are also not required (and do not impact the assembly process).
 
-However, you may not have labels (this should not matter). You may only have instructions. Take the following as an example:
+However, you may not have labels (this should not matter). You may only have instructions and memory directives. Take the following as an example:
 
 ```
+@0
 movl r0, #104
 movl r0, #101
 movl r0, #108

@@ -13,32 +13,30 @@ def gasm():
         dest = f'{source_name}.hex'
 
     with open(dest, 'w') as o:
-        o.write('@0\n')
-
         with open(source) as i:
             for line_num, line in enumerate(i):
+                # mem directive
+                if (line.startswith('@')):
+                    o.write(line)
+                    continue
+
                 # remove symbols
                 line = line.replace(',', '').replace('r', '').replace('#', '').replace('\n', '').lower()
                 comps = line.split(' ')
 
                 instr = comps[0]
-
-                # end
-                if instr == 'end':
-                    o.write('ffff\n')
-                    exit(0)
-
                 if len(comps) > 1:
                     rt = hex(int(comps[1])).split('x')[-1]
                     ra = hex(int(comps[2])).split('x')[-1]
+                    imm = hex(int(comps[2])).split('x')[-1]
+                    imm = f'0{imm}' if len(imm) == 1 else imm
                 if len(comps) > 3:
                     rb = hex(int(comps[3])).split('x')[-1]
 
-                imm = hex(int(comps[2])).split('x')[-1]
-                imm = f'0{imm}' if len(imm) == 1 else imm
-
                 # convert to hex
-                if instr == 'sub':
+                if instr == 'end':
+                    o.write('ffff\n')
+                elif instr == 'sub':
                     o.write(f'0{ra}{rb}{rt}\n')
                 elif instr == 'movl':
                     o.write(f'8{imm}{rt}\n')

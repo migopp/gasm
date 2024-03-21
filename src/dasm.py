@@ -18,8 +18,8 @@ def dasm():
         with open(source) as i:
             for line_num, line in enumerate(i):
                 # mem directive
-                if (line[0] == '@'):
-                    o.write(f'\n@{line[1:]}')
+                if (line.startswith('@')):
+                    o.write(line)
                     continue
 
                 half_bytes = [int(line[hb], 16) for hb in range(0, 4)]
@@ -71,7 +71,6 @@ def dasm():
                         o.write(f'<{line}>: st r{rt}, r{ra}\n')
                     elif (ra == 15 and mem_diff == 15 and rt == 15):
                         o.write('END\n')
-                        exit(0)
                     else:
                         print(f'INCORRECT USAGE OF MEM STR/LD ({line}) AT LINE {line_num}')
                         exit(1)
