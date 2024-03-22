@@ -15,13 +15,35 @@ def gasm():
     with open(dest, 'w') as o:
         with open(source) as i:
             for line_num, line in enumerate(i):
-                # mem directive
-                if (line.startswith('@')):
-                    o.write(line)
+                # remove newline
+                line = line.replace('\n', '').strip()
+
+                # empty line
+                if not line:
+                    o.write('\n')
                     continue
 
+                # comment
+                if line.startswith('//'):
+                    o.write(f'{line}\n')
+                    continue
+
+                # mem directive
+                if line.startswith('@'):
+                    o.write(f'{line}\n')
+                    continue
+
+
+                # extract comment
+                comment = ''
+                if '//' in line:
+                    comment_index = line.index('//')
+                    comment = line[comment_index:]
+                    line = line[:comment_index].strip()
+
                 # remove symbols
-                line = line.replace(',', '').replace('r', '').replace('#', '').replace('\n', '').lower()
+                line = line.replace(',', '').replace('r', '').replace('#', '').lower()
+
                 comps = line.split(' ')
 
                 instr = comps[0]
@@ -37,23 +59,23 @@ def gasm():
                 if instr == 'end':
                     o.write('ffff\n')
                 elif instr == 'sub':
-                    o.write(f'0{ra}{rb}{rt}\n')
+                    o.write(f'0{ra}{rb}{rt}\t{comment}\n')
                 elif instr == 'movl':
-                    o.write(f'8{imm}{rt}\n')
+                    o.write(f'8{imm}{rt}\t{comment}\n')
                 elif instr == 'movh':
-                    o.write(f'9{imm}{rt}\n')
+                    o.write(f'9{imm}{rt}\t{comment}\n')
                 elif instr == 'jz':
-                    o.write(f'e{ra}0{rt}\n')
+                    o.write(f'e{ra}0{rt}\t{comment}\n')
                 elif instr == 'jnz':
-                    o.write(f'e{ra}1{rt}\n')
+                    o.write(f'e{ra}1{rt}\t{comment}\n')
                 elif instr == 'js':
-                    o.write(f'e{ra}2{rt}\n')
+                    o.write(f'e{ra}2{rt}\t{comment}\n')
                 elif instr == 'jns':
-                    o.write(f'e{ra}3{rt}\n')
+                    o.write(f'e{ra}3{rt}\t{comment}\n')
                 elif instr == 'ld':
-                    o.write(f'f{ra}0{rt}\n')
+                    o.write(f'f{ra}0{rt}\t{comment}\n')
                 elif instr == 'st':
-                    o.write(f'f{ra}1{rt}\n')
+                    o.write(f'f{ra}1{rt}\t{comment}\n')
                 else:
                     print(f'INVALID ASM INSTRUCTION ({line}) AT LINE {line_num}')
                     exit(1)

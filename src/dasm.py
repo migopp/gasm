@@ -17,13 +17,26 @@ def dasm():
 
         with open(source) as i:
             for line_num, line in enumerate(i):
-                # mem directive
-                if (line.startswith('@')):
-                    o.write(line)
+                # remove newline
+                line = line.replace('\n', '').strip()
+
+                # empty or comment
+                if not line or line.startswith('//'):
                     continue
 
+                # mem directive
+                if line.startswith('@'):
+                    o.write(f'{line}\n')
+                    continue
+
+                # extract comment
+                comment = ''
+                if '//' in line:
+                    comment_index = line.index('//')
+                    comment = line[comment_index:]
+                    line = line[:comment_index].strip()
+
                 half_bytes = [int(line[hb], 16) for hb in range(0, 4)]
-                line = line.replace('\n', '')
 
                 # decode
                 opcode = half_bytes[0]
