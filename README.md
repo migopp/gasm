@@ -44,7 +44,7 @@ dasm <path to .hex file> <OPTIONAL: path to desired output file>
 
 The file you want to disassemble should be valid `.hex`. It may, however, end with an `ffff`, though the instruction is not officially recognized.
 
-## Comments:
+### Comments:
 
 You may find it important to comment your `.hex` output for test case quality. gasm supports this functionality, and should maintain your comments when assembling. For example, the above code assembles to:
 

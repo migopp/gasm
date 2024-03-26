@@ -83,7 +83,7 @@ def dasm():
                     elif (mem_diff == 1):
                         o.write(f'<{line}>: st r{rt}, r{ra}\n')
                     elif (ra == 15 and mem_diff == 15 and rt == 15):
-                        o.write('END\n')
+                        o.write('<ffff>: end\n')
                     else:
                         print(f'INCORRECT USAGE OF MEM STR/LD ({line}) AT LINE {line_num}')
                         exit(1)

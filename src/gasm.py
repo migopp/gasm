@@ -44,7 +44,9 @@ def gasm():
                 # remove symbols
                 line = line.replace(',', '').replace('r', '').replace('#', '').lower()
 
-                comps = line.split(' ')
+                # filter out whitespace
+                u_comps = line.split(' ')
+                comps = list(filter(lambda c: c != '' and c != ' ' and c != '\t', u_comps))
 
                 instr = comps[0]
                 if len(comps) > 1:
