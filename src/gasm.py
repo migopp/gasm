@@ -72,25 +72,21 @@ def gasm():
                 comps = list(filter(lambda c: c != '' and c != ' ' and c != '\t', u_comps))
                 instr = comps[0]
                 if len(comps) > 1:
-                    try:
-                        rt = hex(int(comps[1])).split('x')[-1]
+                    rt = hex(int(comps[1])).split('x')[-1]
+                    if instr in ['movl', 'movh'] and len(comps) > 2 and comps[2] in labels:
+                        imm = hex(labels[comps[2]]).split('x')[-1]
+                        print(labels[comps[2]])
+                        imm = f'0{imm}' if len(imm) == 1 else imm
+                    else:
                         ra = hex(int(comps[2])).split('x')[-1]
-                        imm = comps[2]
-                        if len(comps) > 3:
-                            rb = hex(int(comps[3])).split('x')[-1]
-                    except:
-                        pass
-
-                    # resolve labels
-                    if instr in ['movl', 'movh']:
-                        if comps[2] in labels:
-                            imm = hex(labels[comps[2]])[2:].zfill(2)
-                        else:
-                            try:
-                                imm = hex(int(imm))[2:].zfill(2)
-                            except ValueError:
-                                print(f'UNDEFINED LABEL OR INVALID IMMEDIATE ({imm}) AT LINE {line_num}')
-                                exit(1)
+                        imm = hex(int(comps[2])).split('x')[-1]
+                        imm = f'0{imm}' if len(imm) == 1 else imm
+                if len(comps) > 3:
+                    rb = hex(int(comps[3])).split('x')[-1]
+                
+                    
+                    
+                                
 
                 # convert to hex
                 if instr == 'end':
@@ -102,20 +98,21 @@ def gasm():
                 elif instr == 'movh':
                     o.write(f'9{imm}{rt}\t{comment}\n')
                 elif instr == 'jz':
-                    o.write(f'e{ra}0{imm}\t{comment}\n')
+                    o.write(f'e{ra}0{rt}\t{comment}\n')
                 elif instr == 'jnz':
-                    o.write(f'e{ra}1{imm}\t{comment}\n')
+                    o.write(f'e{ra}1{rt}\t{comment}\n')
                 elif instr == 'js':
-                    o.write(f'e{ra}2{imm}\t{comment}\n')
+                    o.write(f'e{ra}2{rt}\t{comment}\n')
                 elif instr == 'jns':
-                    o.write(f'e{ra}3{imm}\t{comment}\n')
+                    o.write(f'e{ra}3{rt}\t{comment}\n')
                 elif instr == 'ld':
                     o.write(f'f{ra}0{rt}\t{comment}\n')
                 elif instr == 'st':
                     o.write(f'f{ra}1{rt}\t{comment}\n')
                 else:
-                    print(f'INVALID ASM INSTRUCTION ({line}) AT LINE {line_num}')
-                    exit(1)
+                    o.write(f'ffff\n')
+                    print(f'INVALID ASM INSTRUCTION ({line}) AT LINE {line_num}, will be replaced with 0xffff')
+                    # exit(1)
 
 if __name__ == '__main__':
     gasm()
