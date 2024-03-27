@@ -75,7 +75,6 @@ def gasm():
                     rt = hex(int(comps[1])).split('x')[-1]
                     if instr in ['movl', 'movh'] and len(comps) > 2 and comps[2] in labels:
                         imm = hex(labels[comps[2]]).split('x')[-1]
-                        print(labels[comps[2]])
                         imm = f'0{imm}' if len(imm) == 1 else imm
                     else:
                         ra = hex(int(comps[2])).split('x')[-1]
