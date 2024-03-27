@@ -84,10 +84,6 @@ def gasm():
                 if len(comps) > 3:
                     rb = hex(int(comps[3])).split('x')[-1]
                 
-                    
-                    
-                                
-
                 # convert to hex
                 if instr == 'end':
                     o.write('ffff\n')
