@@ -108,7 +108,7 @@ gasm supports a few different directives that are outlined here. Directives star
 // @END <DIRECTIVE NAME>
 ```
 
-#### `DATA`
+#### Data
 
 Programs may find it helpful to have a data section occasionally. Now, you can specify that a section of memory contains data instead of instructions with the `DATA` directive.
 
@@ -133,7 +133,7 @@ ff61            // now, gasm is sure that these
 // @END DATA
 ```
 
-#### `MISALIGNMENT`
+#### Misalignment
 
 Some programs may leverage misalignment for one reason or another. As such, gasm supports writing instructions that will be stored in a misaligned fashion with the `MISALIGNED` directive. It is used functionally the same as the `DATA` directive.
 
