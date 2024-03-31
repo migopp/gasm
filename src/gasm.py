@@ -56,7 +56,8 @@ def gasm():
 
                 # empty line
                 if not line.strip():
-                    o.write('\n')
+                    if not in_mis_block:
+                        o.write('\n')
                     continue
 
                 # mem directive
