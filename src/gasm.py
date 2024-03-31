@@ -9,7 +9,7 @@ def gasm():
     else:
         # version command
         if sys.argv[1] in ['-v', '-V', '--version']:
-            print('gasm by Michael Goppert\n1.1.3')
+            print('gasm by Michael Goppert\n1.1.4')
             exit(0)
 
         # deduce dest
@@ -114,6 +114,8 @@ def gasm():
 
                 instr = comps[0]
                 if len(comps) > 3:
+                    rt = hex(int(comps[1][1:])).split('x')[-1]
+                    ra = hex(int(comps[2][1:])).split('x')[-1]
                     rb = hex(int(comps[3][1:])).split('x')[-1]
                 elif len(comps) > 1:
                     rt = hex(int(comps[1][1:])).split('x')[-1]
