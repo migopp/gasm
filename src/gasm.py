@@ -7,6 +7,11 @@ def gasm():
     if (len(sys.argv) > 2):
         dest = sys.argv[2]
     else:
+        # version command
+        if sys.argv[1] in ['-v', '-V', '--version']:
+            print('gasm by Michael Goppert\n1.1.3')
+            exit(0)
+
         # deduce dest
         path = source.split('/')
         source_name = os.path.splitext(path[len(path) - 1])[0]
@@ -23,6 +28,7 @@ def gasm():
             # resolve labels
             labels = {}
             resolved_lines = []
+            offset_lines = 0
             ignored_lines = 0
 
             for line in lines:
@@ -33,7 +39,7 @@ def gasm():
                     if label.lower() in ['end', 'sub', 'movl', 'movh', 'jz', 'jnz', 'js', 'jns', 'ld', 'st']:
                         print(f'INVALID LABEL ({label}) AT LINE {len(resolved_lines)}')
                         exit(1)
-                    mem_word_loc = (len(resolved_lines) - ignored_lines) * 2
+                    mem_word_loc = (len(resolved_lines) - ignored_lines + offset_lines) * 2
                     mem_loc = mem_word_loc + 1 if label.startswith('!mis_') else mem_word_loc
                     if not label.startswith('!mis_'):
                         resolved_lines.append(f'// [PC: {hex(mem_loc)}] <{label}>:')
@@ -42,6 +48,8 @@ def gasm():
                 else:
                     if (not line) or line.strip().startswith('//') or line.strip().startswith('@'):
                         ignored_lines += 1
+                    if '@END MISALIGNED' in line:
+                        offset_lines += 1
                     resolved_lines.append(line)
 
             # update lines
