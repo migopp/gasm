@@ -100,7 +100,7 @@ def gasm():
                     line = line[:comment_index].strip()
 
                 # remove extra symbols
-                line = line.replace(',', '').lower()
+                line = line.replace(',', '')
 
                 # filter out whitespace
                 u_comps = line.split(' ')
