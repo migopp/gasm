@@ -133,7 +133,7 @@ ff61            // now, gasm is sure that these
 // @END DATA
 ```
 
-#### Misaligned
+#### Misalignment
 
 Some programs may leverage misalignment for one reason or another. As such, gasm supports writing instructions that will be stored in a misaligned fashion with the `MISALIGNED` directive. It is used functionally the same as the `DATA` directive.
 
