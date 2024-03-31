@@ -35,7 +35,9 @@ def gasm():
                         exit(1)
                     mem_word_loc = (len(resolved_lines) - ignored_lines) * 2
                     mem_loc = mem_word_loc + 1 if label.startswith('!mis_') else mem_word_loc
-                    resolved_lines.append(f'// [PC: {hex(mem_loc)}] <{label}>:')
+                    if not label.startswith('!mis_'):
+                        resolved_lines.append(f'// [PC: {hex(mem_loc)}] <{label}>:')
+                        ignored_lines += 1
                     labels[label] =  mem_loc
                 else:
                     if (not line) or line.strip().startswith('//') or line.strip().startswith('@'):
@@ -99,7 +101,7 @@ def gasm():
                 for comp_num, comp in enumerate(comps):
                     if comp.startswith("'"):
                         lit = comp.split("'")[1]
-                        comps[comp_num] = f'{ord(lit)}'
+                        comps[comp_num] = f'#{ord(lit)}'
 
                 instr = comps[0]
                 if len(comps) > 3:

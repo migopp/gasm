@@ -18,9 +18,9 @@ And, you're good to go. 👍
 gasm <path to assembly file> <OPTIONAL: path to desired output file>
 ```
 
-There are relatively few restrictions on the assembly file. The file extension, for example, is entirely unimportant. Designations like `r` for registers and `#` for literals are also not required (and do not impact the assembly process).
+There are relatively few restrictions on the assembly file. The file extension, for example, is entirely unimportant. However, designations `r` for registers and `#` for literals are now required.
 
-However, you may not have labels (this should not matter). You may only have instructions, comments, and memory directives. Take the following as an example:
+Take the following as a basic example:
 
 ```
 // place at memory location 0
