@@ -9,7 +9,7 @@ def gasm():
     else:
         # version command
         if sys.argv[1] in ['-v', '-V', '--version']:
-            print('gasm by Michael Goppert\n1.1.6')
+            print('gasm by Michael Goppert\n1.1.7')
             exit(0)
 
         # deduce dest
@@ -132,7 +132,7 @@ def gasm():
                 # convert to hex
                 if instr == 'end':
                     if not in_mis_block:
-                        o.write('ffff\n')
+                        o.write(f'ffff    {comment}\n')
                     else:
                         mis_block_ins += 'ffff'
                 elif instr == 'sub':
