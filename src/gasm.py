@@ -9,7 +9,7 @@ def gasm():
     else:
         # version command
         if sys.argv[1] in ['-v', '-V', '--version']:
-            print('gasm by Michael Goppert\n1.1.4')
+            print('gasm by Michael Goppert\n1.1.6')
             exit(0)
 
         # deduce dest
@@ -41,9 +41,9 @@ def gasm():
                         exit(1)
                     mem_word_loc = (len(resolved_lines) - ignored_lines + offset_lines) * 2
                     mem_loc = mem_word_loc + 1 if label.startswith('!mis_') else mem_word_loc
-                    if not label.startswith('!mis_'):
-                        resolved_lines.append(f'// [PC: {hex(mem_loc)}] <{label}>:')
-                        ignored_lines += 1
+                    #if not label.startswith('!mis_'):
+                    resolved_lines.append(f'// [PC: {hex(mem_loc)}] <{label}>:')
+                    ignored_lines += 1
                     labels[label] =  mem_loc
                 else:
                     if (not line) or line.strip().startswith('//') or line.strip().startswith('@'):
@@ -57,21 +57,6 @@ def gasm():
 
             # assemble
             for line_num, line in enumerate(lines):
-                # print data
-                if in_data_block:
-                    o.write(f'{line}\n')
-                    continue
-
-                # empty line
-                if not line.strip():
-                    if not in_mis_block:
-                        o.write('\n')
-                    continue
-
-                # mem directive
-                if line.startswith('@'):
-                    o.write(f'{line}\n')
-                    continue
 
                 # comment
                 comment = ''
@@ -88,6 +73,7 @@ def gasm():
                                 for i in range(int(len(mis_block_ins) / 4)):
                                     o.write(f'{mis_block_ins[i * 4 : i * 4 + 4][::-1]}\n')
                                 mis_block_ins = ''
+
                         o.write(f'{line}\n')
                     elif (line.startswith(' ' or line.startswith('\t'))):
                         o.write(f'        {line.strip()}\n')
@@ -98,6 +84,22 @@ def gasm():
                     comment_index = line.index('//')
                     comment = line[comment_index:]
                     line = line[:comment_index].strip()
+
+                # print data
+                if in_data_block:
+                    o.write(f'{line}\n')
+                    continue
+
+                # empty line
+                if not line.strip():
+                    if not in_mis_block:
+                        o.write('\n')
+                    continue
+
+                # mem directive
+                if line.startswith('@'):
+                    o.write(f'{line}\n')
+                    continue
 
                 # remove extra symbols
                 line = line.replace(',', '')
