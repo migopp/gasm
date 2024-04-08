@@ -9,7 +9,7 @@ def gasm():
     else:
         # version command
         if sys.argv[1] in ['-v', '-V', '--version']:
-            print('gasm by Michael Goppert\n1.1.7')
+            print('gasm by Michael Goppert\n1.1.8')
             exit(0)
 
         # deduce dest
