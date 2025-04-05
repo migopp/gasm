@@ -61,7 +61,7 @@ def dasm():
                     if next_line.startswith('//'):
                         continue
                     else:
-                        line = next_line[2:5] + line[0:2]
+                        line = next_line[2:4] + line[0:2]
 
                 # mem directive
                 if line.startswith('@'):
